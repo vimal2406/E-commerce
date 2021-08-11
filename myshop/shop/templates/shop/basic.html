@@ -20,8 +20,8 @@
         }
         
         .col-md-3 img {
-            width: 255px;
-            height: 355px;
+            width: 170px;
+            max-height: 200px;
         }
         
         body .carousel-indicator li {
@@ -41,18 +41,19 @@
         .carousel-control-next {
             top: auto;
             bottom: auto;
+            margin-top: 200px;
         }
         
         body .no-padding {
-            padding-left: 0;
-            padding-right: 0;
+            padding-left: 15px;
+            padding-right: 15px;
         }
     </style>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">My Awesome Cart</a>
+        <a class="navbar-brand" href="/shop">My Awesome Cart</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -60,30 +61,23 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/shop."> Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
+                    <a class="nav-link" href="/shop/tracker">Track Order</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    <a class="nav-link" href="/shop/about">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/shop/contact">Contact US</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
+            <button type="button" class="mx-3 btn btn-secondary" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content="">Cart(<span id="cart"></span>)</button>
         </div>
     </nav>
     <!--nav bar code ends here-->
@@ -91,6 +85,33 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        console.log('working')
+        if (localStorage.getItem('cart') == null) {
+            var cart = {};
+
+        } else {
+            cart = JSON.parse(localStorage.getItem('cart'))
+            document.getElementById('cart').innerHTML = Object.keys(cart).length;
+        }
+        $('.cart').click(function() {
+            console.log("clicked");
+            var strid = this.id.toString();
+            console.log(strid);
+            if (cart[strid] != undefined) {
+                cart[strid] = cart[strid] + 1;
+            } else {
+                cart[strid] = 1;
+
+            }
+            console.log(cart);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            document.getElementById('cart').innerHTML = Object.keys(cart).length;
+
+        });
+        $('#popcart').popover()
+        document.getElementById('popcart').setAttribute('data-content', '<h5> Check Summary of your cart</h5>');
+    </script>
 </body>
 
 </html>
